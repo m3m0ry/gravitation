@@ -43,13 +43,13 @@ points = Points(rand(dims,N), zeros(dims,N), zeros(dims,N), rand(N)*100, N)
 dt = 1
 
 
-for i = 1:200
+for i = 1:2000
 	acceleration_update(points)
 	velocity_update(points)
 	position_update(points)
 	cells = [MeshCell(VTKCellTypes.VTK_VERTEX, [i]) for i = 1:N]
 	vtkfile = vtk_grid(string("my_vtk_file",i), points.position, cells)
-	#vtk_point_data(vtkfile, reshape([points[i].velocity[j] for i = 1:20 for j = 1:2],2,20), "Velocity")
+	vtk_cell_data(vtkfile, points.mass, "Mass")
 	##vtk_point_data(vtkfile, ([points[i].velocity[1] for i = 1:20], [points[i].velocity[2] for i = 1:20]), "Velocity")
 	outfiles = vtk_save(vtkfile)
 end
