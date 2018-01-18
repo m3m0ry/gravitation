@@ -14,6 +14,9 @@ function acceleration_update(points::Points)
 				continue
 			end
 			r = points.position[:,i] - points.position[:,j]
+			if norm(r) < 0.01
+				continue
+			end
 			points.acceleration[:,i] += - GravitationalConstant * points.mass[i] * points.mass[j] / norm(r)^3 * r
 		end
 	end
@@ -48,10 +51,12 @@ for i = 1:2000
 	velocity_update(points)
 	position_update(points)
 	cells = [MeshCell(VTKCellTypes.VTK_VERTEX, [i]) for i = 1:N]
-	vtkfile = vtk_grid(string("my_vtk_file",i), points.position, cells)
-	vtk_cell_data(vtkfile, points.mass, "Mass")
-	##vtk_point_data(vtkfile, ([points[i].velocity[1] for i = 1:20], [points[i].velocity[2] for i = 1:20]), "Velocity")
-	outfiles = vtk_save(vtkfile)
+	outfile = vtk_grid(string("my_vtk_file",i), points.position, cells) do vtk
+		vtk_cell_data(vtk, points.mass, "Mass")
+		vtk_cell_data(vtk, points.velocity, "Velocity")
+		vtk_point_data(vtk, points.mass, "Pointmass")
+		vtk_point_data(vtk, points.velocity, "pointvelocity")
+	end
 end
 
 
