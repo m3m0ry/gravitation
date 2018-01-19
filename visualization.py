@@ -1,6 +1,6 @@
 from paraview.simple import *
 
-files = ['git/gravitation/my_vtk_file%d.vtu' % (i+1) for i in range(0,2000)]
+files = ['my_vtk_file%d.vtu' % (i+1) for i in range(0,2000)]
 reader = OpenDataFile(files)
 
 print reader.PointArrayStatus
