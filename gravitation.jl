@@ -53,9 +53,10 @@ for i = 1:2000
 	cells = [MeshCell(VTKCellTypes.VTK_VERTEX, [i]) for i = 1:N]
 	outfile = vtk_grid(string("my_vtk_file",i), points.position, cells) do vtk
 		vtk_cell_data(vtk, points.mass, "Mass")
-		vtk_cell_data(vtk, points.velocity, "Velocity")
+		vtk_cell_data(vtk, vcat(points.velocity, zeros(1,N)), "Velocity")
+
 		vtk_point_data(vtk, points.mass, "Pointmass")
-		vtk_point_data(vtk, points.velocity, "pointvelocity")
+		vtk_point_data(vtk, vcat(points.velocity, zeros(1,N)), "Pointvelocity")
 	end
 end
 
