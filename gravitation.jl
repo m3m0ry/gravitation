@@ -55,8 +55,14 @@ dx = 1/grid
 dt = 1
 
 assign_mass(potential, points, dx)
-vtk_write_array("my_vti_file0", potential, "Potential")
-outfile = vtk_grid(string("my_vtk_file",0), points.position*grid, cells) do vtk
+
+#vtk_write_array("my_vti_file0", potential, "Potential")
+outfile = vtk_grid("my_vtr_file0", [i*dx for i=0:grid],[i*dx for i=0:grid]) do vtk
+	vtk_cell_data(vtk, potential, "Potential")
+end
+
+
+outfile = vtk_grid(string("my_vtk_file",0), points.position, cells) do vtk
 	vtk_cell_data(vtk, points.mass, "Mass")
 	vtk_cell_data(vtk, vcat(points.velocity, zeros(1,N)), "Velocity")
 
