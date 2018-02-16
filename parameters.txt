@@ -1,26 +1,6 @@
-#=====================================================================================================================
-#             		 Backward Facing Step
-#=====================================================================================================================
-
-
 # Problem specific Data:
 # ---------------------
-
-name backstep
-
-boundary_condition_W   inflow    # inflow condition at west boundary
-boundary_velocity_W    0.2       # inflow velocity on the west boundary
-boundary_condition_E   outflow   # outflow condition at east boundary
-
-GX                     0.0			# Body forces (e.g. gravity)
-GY                     -1.0			#
-
-Re                     250.0		# Reynolds number
-
-U_INIT                 0.0		   # initial value for velocity in x-direction
-V_INIT                 0.0		   # initial value for velocity in y-direction
-P_INIT                 1.0		   # initial value for pressure
-
+name test
 
 # Geometry Data:
 # -------------
