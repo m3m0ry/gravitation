@@ -1,2 +1,4 @@
 *.vtu
 *.vtr
+*.csv
+.ipynb_checkpoints
