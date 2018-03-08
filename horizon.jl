@@ -53,7 +53,9 @@ function horizon_data()
 		data = m[:csv_data]
 		data = replace(data, ",\n", "\n")
 		df = CSV.read(IOBuffer(data); types=Dict(2=>String), header=["date1", "date2", "X", "Y", "Z", "VX", "VY", "VZ", "LT", "RG", "RR"], nullable=false)
-		CSV.write("$(major_bodies[k]).csv", df)
+		open("$(major_bodies[k]).csv", "w") do f
+			CSV.write(f, df)
+		end
 	end
 end
 
@@ -63,10 +65,10 @@ using WriteVTK
 vectors = Array{DataFrame}(major_bodies.count)
 
 for (i, k) in enumerate(keys(major_bodies))
-	vectors[i] = CSV.read("$(major_bodies[k]).csv")
+	vectors[i] = CSV.read("$(major_bodies[k]).csv", nullable=false)
 end
 
-cells = [MeshCell(VTKCellTypes.VTK_VERTEX, [i]) for i = 1:length(vectors)]
+cells = WriteVTK.MeshCell[MeshCell(VTKCellTypes.VTK_VERTEX, [i]) for i = 1:length(vectors)]
 for i = 1:size(vectors[1])[1]
 	points = Array{Float64}(3, length(vectors))
 	for j = 1:length(vectors)
