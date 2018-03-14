@@ -58,7 +58,7 @@ grid = 200
 itermax = 2000
 dims = 2
 GravitationalConstant = 6.673e-8
-cells = [MeshCell(VTKCellTypes.VTK_VERTEX, [i]) for i = 1:N]
+cells = WriteVTK.MeshCell[MeshCell(VTKCellTypes.VTK_VERTEX, [i]) for i = 1:N]
 
 points = Points(rand(dims,N), zeros(dims,N), zeros(dims,N), rand(N)*100, N)
 density = zeros(Float64, grid, grid)
@@ -105,5 +105,3 @@ for i = 1:60
 	velocity_update(points)
 	position_update(points)
 end
-
-
